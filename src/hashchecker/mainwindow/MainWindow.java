@@ -3,24 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hashsum;
+package hashchecker.mainwindow;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Oleksandr Bogovyk <obogovyk@gmail.com>
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class MainWindow extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public MainWindow() {
         initComponents();
     }
 
@@ -35,7 +39,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         hashFileChooserOpen = new javax.swing.JFileChooser();
         hashFileChooserSave = new javax.swing.JFileChooser();
-        jPopupOption = new javax.swing.JPopupMenu();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,13 +80,17 @@ public class NewJFrame extends javax.swing.JFrame {
         hashFileChooserOpen.setToolTipText("");
 
         hashFileChooserSave.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Текстовый файл", "txt");
+        hashFileChooserSave.addChoosableFileFilter(filter);
         hashFileChooserSave.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
-        hashFileChooserSave.setApproveButtonToolTipText("Сохранить");
+        hashFileChooserSave.setApproveButtonText("Сохранить");
+        hashFileChooserSave.setApproveButtonToolTipText("Сохранить файл");
         hashFileChooserSave.setDialogTitle("Сохранить файл");
         hashFileChooserSave.setToolTipText("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Advanced Hash-checker Utility");
+        setTitle("Hash-checker Utility");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("hash-logo.png")));
         setResizable(false);
 
         jLabel1.setText("Файл:");
@@ -95,10 +102,16 @@ public class NewJFrame extends javax.swing.JFrame {
         jTextField1.setText("D:/testfile.txt");
         jTextField1.setToolTipText("");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MD4", "MD5", "SHA-1", "SHA-256", "SHA-512", "CRC32" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MD5", "SHA-1", "SHA-256", "SHA-512", "CRC32" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jTextField2.setText("73f48840b60ab6da68b03acd322445ee");
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jButton2.setText("Расчитать");
         jButton2.setToolTipText("Расчитать значение");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -109,7 +122,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Message Digest 4");
+        jLabel4.setText("Message Digest 5");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
@@ -141,14 +154,11 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jButton1.setText("Буфер");
         jButton1.setToolTipText("Скопировать в буфер обмена");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
+        jButton3.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jButton3.setText("Очистить");
         jButton3.setToolTipText("Очистить данные");
         jButton3.setEnabled(false);
@@ -186,6 +196,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Файл");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Открыть");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,6 +207,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenu3.setText("Экспорт");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Текстовый файл (*.txt)");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,7 +219,13 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.add(jMenu3);
         jMenu1.add(jSeparator3);
 
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem3.setText("Выход");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -217,6 +235,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenuItem4.setText("Лицензия");
         jMenu2.add(jMenuItem4);
 
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem5.setText("О программе");
         jMenu2.add(jMenuItem5);
 
@@ -242,8 +261,8 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -339,6 +358,8 @@ public class NewJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    Component frame;
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jProgressBar1.setValue(100);
         jLabel9.setText("100%");
@@ -383,16 +404,44 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jLabel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseEntered
-        jLabel10.setForeground(Color.black);
+        jLabel10.setText("<html>Открыть...</html>");
     }//GEN-LAST:event_jLabel10MouseEntered
 
     private void jLabel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseExited
-        jLabel10.setForeground(Color.blue);
+        jLabel10.setText("<html><u>Открыть...</u></html>");
     }//GEN-LAST:event_jLabel10MouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jPopupOption.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        /* MD5, SHA-1, SHA-256, SHA-512, CRC32 */
+        if (jComboBox1.getSelectedIndex() == 1) {
+            jLabel4.setText("SHA-1 (Secure Hash Algorithm)");
+        } else if (jComboBox1.getSelectedIndex() == 2) {
+            jLabel4.setText("SHA-256 (Secure Hash Algorithm)");
+        } else if (jComboBox1.getSelectedIndex() == 3) {
+            jLabel4.setText("SHA-512 (Secure Hash Algorithm)");
+        } else if (jComboBox1.getSelectedIndex() == 4) {
+            jLabel4.setText("CRC32 (Cyclic Redundancy Check)");
+        } else {
+            jLabel4.setText("MD5 (Message Digest 5)");
+        }      
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Object[] options = {"Да", "Отмена"};
+        int status = JOptionPane.showOptionDialog(frame, 
+                "Действительно выйти из программы?",
+                "Выход",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+                );
+        System.out.println(status);
+        if (JOptionPane.NO_OPTION != status) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,20 +460,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new MainWindow().setVisible(true);
             }
         });
     }
@@ -460,7 +510,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JPopupMenu jPopupOption;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
