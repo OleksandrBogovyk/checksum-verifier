@@ -1,17 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hashchecker.mainwindow;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -20,14 +21,151 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Oleksandr Bogovyk <obogovyk@gmail.com>
  */
 public class MainWindow extends javax.swing.JFrame {
+	
+	private final static int MAX_LABEL_LENGTH = 50;
+
+	private boolean isCalculating = false;
+	private HashCalculator hashCalculator;
+	HashInfo hashInfo = null;
+    Component frame;
+
 
     /**
      * Creates new form NewJFrame
      */
     public MainWindow() {
         initComponents();
+		
+		List<Algorithm> list = Algorithm.getList();
+		for(Algorithm a : list) {
+			cmbAlgorithm.addItem(a);
+		}
+		
+		clearData();
     }
 
+	void calculateHash() {
+		
+		String filename = fieldFileName.getText();
+		File file = new File( filename );
+		if( !file.exists() ) {
+			JOptionPane.showMessageDialog(frame, "Отсутствует файл " + filename, 
+					"Ошибка", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		isCalculating = true;
+		clearData();
+		
+		buttonBuffer.setEnabled(false);
+		buttonCalculate.setEnabled(false);
+		buttonClear.setEnabled(false);
+		menuItemExport.setEnabled(false);
+		menuItemOpenFile.setEnabled(false);
+		
+        Algorithm algorithm = (Algorithm)cmbAlgorithm.getSelectedItem();
+		hashCalculator = new HashCalculator();
+		hashCalculator.setMainWindow(this);
+		hashCalculator.setFileName( filename );
+		hashCalculator.setAlgorithm(algorithm);
+		hashCalculator.addPropertyChangeListener( new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String propertyName = evt.getPropertyName();
+				if( propertyName.equals(HashCalculator.PROPERTY_PROGRESS_STRING) ) {
+					String progressString = (String)evt.getNewValue();
+					progressBar.setString( progressString );
+				} else if( propertyName.equals(HashCalculator.PROPERTY_PROGRESS_VALUE) ) {
+					int progress = (Integer)evt.getNewValue();
+					progressBar.setValue(progress);
+				}
+			}
+		});
+		
+		hashCalculator.execute();	
+	}
+	void hashCalculated() {
+		try {
+			hashInfo = hashCalculator.get();
+			fieldHash.setText( hashInfo.getHash() );
+			fieldHash.setCaretPosition(0);
+			
+			setLabelText(labelInfoFilename, hashInfo.getFilename());
+			setLabelText(labelInfoFilesize, hashInfo.getFilesize());
+			setLabelText(labelInfoAlgorithm, hashInfo.getAlgorithm());
+			setLabelText(labelInfoHash, hashInfo.getHash());
+		} catch (InterruptedException | ExecutionException ex) {
+			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+			JOptionPane.showMessageDialog(frame, "Возникла ошибка при расчете хэш-суммы ", 
+					"Ошибка", JOptionPane.ERROR_MESSAGE);
+			clearData();
+		}
+		buttonBuffer.setEnabled(true);
+		buttonCalculate.setEnabled(true);
+		buttonClear.setEnabled(true);
+		menuItemExport.setEnabled(true);
+		menuItemOpenFile.setEnabled(true);
+		isCalculating = false;
+		progressBar.setValue(0);
+		progressBar.setString( "" );
+	}
+	
+    private void openDirectoryFile() {
+		if( isCalculating )
+			return;
+        int foresult = hashFileChooserOpen.showOpenDialog(this);
+        if (foresult == JFileChooser.APPROVE_OPTION) {
+			File file = hashFileChooserOpen.getSelectedFile();
+			fieldFileName.setText(file.getAbsolutePath());
+			fieldFileName.setCaretPosition(0);
+		} else {
+        System.out.println("File access cancelled by user.");
+        }
+    }
+    
+	private void clearData() {
+        //fieldFileName.setText("");
+		hashInfo = null;
+        fieldHash.setText("");
+		labelInfoAlgorithm.setText("");
+		labelInfoFilename.setText("");
+		labelInfoFilesize.setText("");
+		labelInfoHash.setText("");
+	}
+
+	private void exportHashInfo() {
+		if( hashInfo == null ) {
+			JOptionPane.showMessageDialog(frame, "Отсутствует рассчитанная хэш-сумма ", 
+					"Ошибка", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		int response = hashFileChooserSave.showOpenDialog(this);
+		if( response != JFileChooser.APPROVE_OPTION )
+			return;
+		File file = hashFileChooserSave.getSelectedFile();
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			fos.write( hashInfo.createFileContent().getBytes() );
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(frame, "Возникла ошибка при экспорте информации ", 
+					"Ошибка", JOptionPane.ERROR_MESSAGE);
+			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+	
+	private void copyToBuffer() {
+		fieldHash.selectAll();
+		fieldHash.copy();
+		fieldHash.select(0, 0);
+	}
+	
+	private void setLabelText(JLabel label, String text) {
+		if( text.length() > MAX_LABEL_LENGTH )
+			text = text.substring(0, MAX_LABEL_LENGTH) + "...";
+		label.setText(text);
+	}
+	
+	// Netbeans generated methods
+	
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,34 +180,33 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        fieldFileName = new javax.swing.JTextField();
+        cmbAlgorithm = new javax.swing.JComboBox<Algorithm>();
+        fieldHash = new javax.swing.JTextField();
+        buttonCalculate = new javax.swing.JButton();
+        labelAlgorithm = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        labelOpen = new javax.swing.JLabel();
+        buttonBuffer = new javax.swing.JButton();
+        buttonClear = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar();
+        labelInfoFilesize = new javax.swing.JLabel();
+        labelInfoAlgorithm = new javax.swing.JLabel();
+        labelInfoHash = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        labelInfoFilename = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuItemOpenFile = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menuItemExport = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        menuItemExit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -99,30 +236,27 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel3.setText("Хэш-сумма:");
 
-        jTextField1.setText("D:/testfile.txt");
-        jTextField1.setToolTipText("");
+        fieldFileName.setToolTipText("");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MD5", "SHA-1", "SHA-256", "SHA-512", "CRC32" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        cmbAlgorithm.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
+                cmbAlgorithmItemStateChanged(evt);
             }
         });
 
-        jTextField2.setText("73f48840b60ab6da68b03acd322445ee");
+        fieldHash.setText("73f48840b60ab6da68b03acd322445ee");
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jButton2.setText("Расчитать");
-        jButton2.setToolTipText("Расчитать значение");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonCalculate.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        buttonCalculate.setText("Расчитать");
+        buttonCalculate.setToolTipText("Расчитать значение");
+        buttonCalculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonCalculateActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Message Digest 5");
+        labelAlgorithm.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        labelAlgorithm.setText("Message Digest 5");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
@@ -137,96 +271,99 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("Хэш-сумма:");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel10.setForeground(java.awt.Color.blue);
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("<html><u>Открыть...</u></html>");
-        jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+        labelOpen.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        labelOpen.setForeground(java.awt.Color.blue);
+        labelOpen.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelOpen.setText("<html><u>Открыть...</u></html>");
+        labelOpen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelOpen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel10MouseClicked(evt);
+                labelOpenMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel10MouseEntered(evt);
+                labelOpenMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel10MouseExited(evt);
+                labelOpenMouseExited(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jButton1.setText("Буфер");
-        jButton1.setToolTipText("Скопировать в буфер обмена");
-
-        jButton3.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jButton3.setText("Очистить");
-        jButton3.setToolTipText("Очистить данные");
-        jButton3.setEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonBuffer.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        buttonBuffer.setText("Буфер");
+        buttonBuffer.setToolTipText("Скопировать в буфер обмена");
+        buttonBuffer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                buttonBufferActionPerformed(evt);
             }
         });
 
-        jProgressBar1.setForeground(new java.awt.Color(51, 153, 0));
-        jProgressBar1.setToolTipText("");
-        jProgressBar1.setVerifyInputWhenFocusTarget(false);
+        buttonClear.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        buttonClear.setText("Очистить");
+        buttonClear.setToolTipText("Очистить данные");
+        buttonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClearActionPerformed(evt);
+            }
+        });
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel11.setText("132,12 Mb");
+        progressBar.setForeground(new java.awt.Color(51, 153, 0));
+        progressBar.setToolTipText("");
+        progressBar.setString("");
+        progressBar.setStringPainted(true);
+        progressBar.setVerifyInputWhenFocusTarget(false);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel12.setText("MD5 (Message Digest 4)");
+        labelInfoFilesize.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        labelInfoFilesize.setForeground(new java.awt.Color(102, 102, 102));
+        labelInfoFilesize.setText("132,12 Mb");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel13.setText("73f48840b60ab6da68b03acd322445ee");
+        labelInfoAlgorithm.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        labelInfoAlgorithm.setForeground(new java.awt.Color(102, 102, 102));
+        labelInfoAlgorithm.setText("MD5 (Message Digest 4)");
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("0%");
+        labelInfoHash.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        labelInfoHash.setForeground(new java.awt.Color(102, 102, 102));
+        labelInfoHash.setText("73f48840b60ab6da68b03acd322445ee");
 
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setText("Имя файла:");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel15.setText("testfile.txt");
+        labelInfoFilename.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        labelInfoFilename.setForeground(new java.awt.Color(102, 102, 102));
+        labelInfoFilename.setText("testfile.txt");
 
         jMenu1.setText("Файл");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Открыть");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuItemOpenFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemOpenFile.setText("Открыть");
+        menuItemOpenFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuItemOpenFileActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(menuItemOpenFile);
 
         jMenu3.setText("Экспорт");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Текстовый файл (*.txt)");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuItemExport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemExport.setText("Текстовый файл (*.txt)");
+        menuItemExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuItemExportActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem2);
+        jMenu3.add(menuItemExport);
 
         jMenu1.add(jMenu3);
         jMenu1.add(jSeparator3);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem3.setText("Выход");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        menuItemExit.setText("Выход");
+        menuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menuItemExitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(menuItemExit);
 
         jMenuBar1.add(jMenu1);
 
@@ -258,26 +395,23 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fieldHash, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(cmbAlgorithm, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelAlgorithm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fieldFileName)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelOpen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(buttonClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(buttonBuffer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(buttonCalculate))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -288,16 +422,16 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(jLabel14)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelInfoHash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelInfoFilename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelInfoFilesize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelInfoAlgorithm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 154, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {buttonBuffer, buttonCalculate, buttonClear});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,30 +439,27 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelOpen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbAlgorithm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelAlgorithm))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldHash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(buttonCalculate)
+                    .addComponent(buttonBuffer)
+                    .addComponent(buttonClear))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -336,97 +467,68 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(labelInfoFilename))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel11))
+                    .addComponent(labelInfoFilesize))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel12))
+                    .addComponent(labelInfoAlgorithm))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel13))
+                    .addComponent(labelInfoHash))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jProgressBar1, jTextField2});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {fieldHash, progressBar});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    Component frame;
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jProgressBar1.setValue(100);
-        jLabel9.setText("100%");
-        jButton3.setEnabled(true);
-        jTextField1.setText("D:/testfile.txt");
-        jTextField2.setText("73f48840b60ab6da68b03acd322445ee");
-    }//GEN-LAST:event_jButton2ActionPerformed
+		
+    private void buttonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCalculateActionPerformed
+		calculateHash();
+    }//GEN-LAST:event_buttonCalculateActionPerformed
 
-    private void openDirectoryFile() {
-        int foresult = hashFileChooserOpen.showOpenDialog(this);
-        if (foresult == JFileChooser.APPROVE_OPTION) {
-        File file = hashFileChooserOpen.getSelectedFile();
-        try {
-            jTextField1.read( new FileReader(file.getAbsolutePath() ), null );
-            } 
-        catch (IOException ex) {
-          System.out.println("An error occured while openning file: "+file.getAbsolutePath());
-        }
-    } else {
-        System.out.println("File access cancelled by user.");
-        }
-    }
-    
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jProgressBar1.setValue(0);
-        jLabel9.setText("0%");
-        jTextField2.setText("");
-        jTextField1.setText("");
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
+		clearData();
+		fieldFileName.setText("");
+    }//GEN-LAST:event_buttonClearActionPerformed
 
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+    private void labelOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseClicked
         openDirectoryFile();
-    }//GEN-LAST:event_jLabel10MouseClicked
+    }//GEN-LAST:event_labelOpenMouseClicked
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOpenFileActionPerformed
         openDirectoryFile();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_menuItemOpenFileActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        hashFileChooserSave.showOpenDialog(this);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void menuItemExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExportActionPerformed
+        exportHashInfo();
+    }//GEN-LAST:event_menuItemExportActionPerformed
 
-    private void jLabel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseEntered
-        jLabel10.setText("<html>Открыть...</html>");
-    }//GEN-LAST:event_jLabel10MouseEntered
+    private void labelOpenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseEntered
+        labelOpen.setText("<html>Открыть...</html>");
+    }//GEN-LAST:event_labelOpenMouseEntered
 
-    private void jLabel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseExited
-        jLabel10.setText("<html><u>Открыть...</u></html>");
-    }//GEN-LAST:event_jLabel10MouseExited
+    private void labelOpenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseExited
+        labelOpen.setText("<html><u>Открыть...</u></html>");
+    }//GEN-LAST:event_labelOpenMouseExited
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        /* MD5, SHA-1, SHA-256, SHA-512, CRC32 */
-        if (jComboBox1.getSelectedIndex() == 1) {
-            jLabel4.setText("SHA-1 (Secure Hash Algorithm)");
-        } else if (jComboBox1.getSelectedIndex() == 2) {
-            jLabel4.setText("SHA-256 (Secure Hash Algorithm)");
-        } else if (jComboBox1.getSelectedIndex() == 3) {
-            jLabel4.setText("SHA-512 (Secure Hash Algorithm)");
-        } else if (jComboBox1.getSelectedIndex() == 4) {
-            jLabel4.setText("CRC32 (Cyclic Redundancy Check)");
-        } else {
-            jLabel4.setText("MD5 (Message Digest 5)");
-        }      
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
+    private void cmbAlgorithmItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAlgorithmItemStateChanged
+        Algorithm algorithm = (Algorithm)cmbAlgorithm.getSelectedItem();
+		if( algorithm == null ) {
+			labelAlgorithm.setText("");
+		} else {
+			labelAlgorithm.setText(algorithm.getDescription());
+		}
+    }//GEN-LAST:event_cmbAlgorithmItemStateChanged
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void menuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExitActionPerformed
         Object[] options = {"Да", "Отмена"};
         int status = JOptionPane.showOptionDialog(frame, 
                 "Действительно выйти из программы?",
@@ -441,7 +543,11 @@ public class MainWindow extends javax.swing.JFrame {
         if (JOptionPane.NO_OPTION != status) {
             System.exit(0);
         }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_menuItemExitActionPerformed
+
+    private void buttonBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBufferActionPerformed
+        copyToBuffer();
+    }//GEN-LAST:event_buttonBufferActionPerformed
 
     /**
      * @param args the command line arguments
@@ -479,42 +585,42 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
 
+	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonBuffer;
+    private javax.swing.JButton buttonCalculate;
+    private javax.swing.JButton buttonClear;
+    private javax.swing.JComboBox<Algorithm> cmbAlgorithm;
+    private javax.swing.JTextField fieldFileName;
+    private javax.swing.JTextField fieldHash;
     private javax.swing.JFileChooser hashFileChooserOpen;
     private javax.swing.JFileChooser hashFileChooserSave;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel labelAlgorithm;
+    private javax.swing.JLabel labelInfoAlgorithm;
+    private javax.swing.JLabel labelInfoFilename;
+    private javax.swing.JLabel labelInfoFilesize;
+    private javax.swing.JLabel labelInfoHash;
+    private javax.swing.JLabel labelOpen;
+    private javax.swing.JMenuItem menuItemExit;
+    private javax.swing.JMenuItem menuItemExport;
+    private javax.swing.JMenuItem menuItemOpenFile;
+    private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }
