@@ -1,11 +1,5 @@
-package hashchecker.mainwindow;
+package com.checksum.mainwindow;
 
-import java.io.File;
-
-/**
- *
- * @author andre
- */
 public class HashInfo {
 
 	public String getFilename() {
@@ -42,10 +36,10 @@ public class HashInfo {
 
 	public String createFileContent() {
 		StringBuilder sb = new StringBuilder();
-		sb.append( String.format("Имя файла: %s\n", filename) );
-		sb.append( String.format("Размер файла: %s\n", filesize) );
-		sb.append( String.format("Алгоритм: %s\n", algorithm) );
-		sb.append( String.format("Хэш-сумма: %s\n", hash) );
+		sb.append( String.format("File name: %s\n", filename) );
+		sb.append( String.format("File size: %s\n", filesize) );
+		sb.append( String.format("Algorithm: %s\n", algorithm) );
+		sb.append( String.format("Checksum: %s\n", hash) );
 		
 		return sb.toString();
 	}

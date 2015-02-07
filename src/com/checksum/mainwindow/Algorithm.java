@@ -1,4 +1,4 @@
-package hashchecker.mainwindow;
+package com.checksum.mainwindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,13 @@ public class Algorithm {
 			a.setId("CRC32");
 			a.setTitle("CRC32");
 			a.setDescription("CRC32 (Cyclic Redundancy Check)");
+			list.add(a);
+		}
+                {
+			Algorithm a = new Algorithm();
+			a.setId("Adler-32");
+			a.setTitle("Adler-32");
+			a.setDescription("Adler-32 (RFC 1950)");
 			list.add(a);
 		}
 		return list;

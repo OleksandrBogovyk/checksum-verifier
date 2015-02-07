@@ -1,4 +1,4 @@
-package hashchecker.mainwindow;
+package com.checksum.mainwindow;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,8 +37,10 @@ public class HashCalculator extends SwingWorker<HashInfo, Void> {
 		setProgress(0);
 		HashInfo hashInfo = new HashInfo();
 		hashInfo.setAlgorithm(algorithm.getDescription());
-		hashInfo.setFilename(fileName);
 		File file = new File(fileName);
+                hashInfo.setFilename(file.getName());
+		
+                
 
 		long fileSize = file.length();
 		String sizeText = "";
