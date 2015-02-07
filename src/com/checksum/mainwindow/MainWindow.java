@@ -82,7 +82,8 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 		});
 		
-		hashCalculator.execute();	
+		hashCalculator.execute();
+                buttonBuffer.setEnabled(true);
 	}
 	void hashCalculated() {
 		try {
@@ -115,15 +116,10 @@ public class MainWindow extends javax.swing.JFrame {
 			return;
         int foresult = hashFileChooserOpen.showOpenDialog(this);
         if (foresult == JFileChooser.APPROVE_OPTION) {
-			File file = hashFileChooserOpen.getSelectedFile();
-			fieldFileName.setText(file.getAbsolutePath());
-			fieldFileName.setCaretPosition(0);
-		} else {
-                JOptionPane.showMessageDialog(frame,
-                    "File access cancelled by user.",
-                    "Warning",
-                    JOptionPane.WARNING_MESSAGE);
-        }
+            File file = hashFileChooserOpen.getSelectedFile();
+            fieldFileName.setText(file.getAbsolutePath());
+            fieldFileName.setCaretPosition(0);
+        } 
     }
     
 	private void clearData() {
@@ -223,16 +219,15 @@ public class MainWindow extends javax.swing.JFrame {
         hashFileChooserOpen.setToolTipText("");
 
         hashFileChooserSave.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Текстовый файл", "txt");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file (*.txt)", "txt");
         hashFileChooserSave.addChoosableFileFilter(filter);
         hashFileChooserSave.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
-        hashFileChooserSave.setApproveButtonText("Save");
         hashFileChooserSave.setApproveButtonToolTipText("Save file");
         hashFileChooserSave.setDialogTitle("Save file");
         hashFileChooserSave.setToolTipText("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Hash-checker Utility");
+        setTitle("Checksum Verifier Utility");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("hash-logo.png")));
         setResizable(false);
 
@@ -254,7 +249,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         buttonCalculate.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         buttonCalculate.setText("Calculate");
-        buttonCalculate.setToolTipText("Расчитать значение");
+        buttonCalculate.setToolTipText("Calculate checksum");
         buttonCalculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCalculateActionPerformed(evt);
@@ -296,7 +291,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         buttonBuffer.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         buttonBuffer.setText("Copy");
-        buttonBuffer.setToolTipText("Скопировать в буфер обмена");
+        buttonBuffer.setToolTipText("Copy to clipboard");
+        buttonBuffer.setEnabled(false);
         buttonBuffer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonBufferActionPerformed(evt);
@@ -305,7 +301,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         buttonClear.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         buttonClear.setText("Clear");
-        buttonClear.setToolTipText("Очистить данные");
+        buttonClear.setToolTipText("Clear data");
         buttonClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonClearActionPerformed(evt);
@@ -512,6 +508,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
 		clearData();
 		fieldFileName.setText("");
+                buttonBuffer.setEnabled(false);
     }//GEN-LAST:event_buttonClearActionPerformed
 
     private void labelOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseClicked
@@ -544,10 +541,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbAlgorithmItemStateChanged
 
     private void menuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExitActionPerformed
-        Object[] options = {"Да", "Отмена"};
+        Object[] options = {"Yes", "No"};
         int status = JOptionPane.showOptionDialog(frame, 
-                "Действительно выйти из программы?",
-                "Выход",
+                "Are you sure you want to exit?",
+                "Exit",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
