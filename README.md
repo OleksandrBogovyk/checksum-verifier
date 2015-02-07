@@ -1,3 +1,3 @@
-hashchecker	
+checksum-verifier
 ==========
-Advanced Hash-check Utility
+Advanced Checksum Verifier
