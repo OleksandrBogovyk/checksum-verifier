@@ -46,7 +46,7 @@ public class Algorithm {
 			a.setDescription("CRC32 (Cyclic Redundancy Check)");
 			list.add(a);
 		}
-                {
+		{
 			Algorithm a = new Algorithm();
 			a.setId("Adler-32");
 			a.setTitle("Adler-32");
@@ -60,15 +60,15 @@ public class Algorithm {
 	public String toString() {
 		return title;
 	}
-	
+
 	public boolean isCrc32() {
 		return id.equals("CRC32");
 	}
-	
-        public boolean isAdler32() {
+
+	public boolean isAdler32() {
 		return id.equals("Adler-32");
 	}
-        
+
 	public String getId() {
 		return id;
 	}

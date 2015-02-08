@@ -21,84 +21,84 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Oleksandr Bogovyk <obogovyk@gmail.com>
  */
 public class MainWindow extends javax.swing.JFrame {
-	
-	private final static int MAX_LABEL_LENGTH = 50;
+
+	private final static int MAX_LABEL_LENGTH = 40;
 
 	private boolean isCalculating = false;
 	private HashCalculator hashCalculator;
 	HashInfo hashInfo = null;
-    Component frame;
+	Component frame;
 
+	/**
+	 * Creates new form NewJFrame
+	 */
+	public MainWindow() {
+		initComponents();
 
-    /**
-     * Creates new form NewJFrame
-     */
-    public MainWindow() {
-        initComponents();
-		
 		List<Algorithm> list = Algorithm.getList();
-		for(Algorithm a : list) {
+		for (Algorithm a : list) {
 			cmbAlgorithm.addItem(a);
 		}
-		
+
 		clearData();
-    }
+	}
 
 	void calculateHash() {
-		
+
 		String filename = fieldFileName.getText();
-		File file = new File( filename );
-		if( !file.exists() ) {
-			JOptionPane.showMessageDialog(frame, "Please select a file to calculate checksum. " + filename, 
+		File file = new File(filename);
+		if (!file.exists()) {
+			JOptionPane.showMessageDialog(frame, "Please select a file to calculate checksum. " + filename,
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		isCalculating = true;
 		clearData();
-		
+
 		linkBuffer.setEnabled(false);
 		buttonCalculate.setEnabled(false);
 		buttonClear.setEnabled(false);
 		menuItemExport.setEnabled(false);
 		menuItemOpenFile.setEnabled(false);
-		
-        Algorithm algorithm = (Algorithm)cmbAlgorithm.getSelectedItem();
+
+		Algorithm algorithm = (Algorithm) cmbAlgorithm.getSelectedItem();
 		hashCalculator = new HashCalculator();
 		hashCalculator.setMainWindow(this);
-		hashCalculator.setFileName( filename );
-		hashCalculator.setAlgorithm( algorithm );
+		hashCalculator.setFileName(filename);
+		hashCalculator.setAlgorithm(algorithm);
 		hashCalculator.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String propertyName = evt.getPropertyName();
-				if( propertyName.equals(HashCalculator.PROPERTY_PROGRESS_STRING) ) {
-                                    String progressString = (String) evt.getNewValue();
-                                    percentProgress.setText(progressString);
-                                    //progressBar.setString( progressString );
-				} else if ( propertyName.equals(HashCalculator.PROPERTY_PROGRESS_VALUE) ) {
-                                    int progress = (Integer) evt.getNewValue();
-                                    progressBar.setValue(progress);
+				if (propertyName.equals(HashCalculator.PROPERTY_PROGRESS_STRING)) {
+					String progressString = (String) evt.getNewValue();
+					percentProgress.setText(progressString);
+					//progressBar.setString( progressString );
+				} else if (propertyName.equals(HashCalculator.PROPERTY_PROGRESS_VALUE)) {
+					int progress = (Integer) evt.getNewValue();
+					progressBar.setValue(progress);
 				}
 			}
 		});
-		
+
 		hashCalculator.execute();
-                linkBuffer.setEnabled(true);
+		linkBuffer.setEnabled(true);
 	}
+
 	void hashCalculated() {
 		try {
 			hashInfo = hashCalculator.get();
-			fieldHash.setText( hashInfo.getHash() );
+			fieldHash.setText(hashInfo.getHash());
 			fieldHash.setCaretPosition(0);
-			
+
 			setLabelText(labelInfoFilename, hashInfo.getFilename());
 			setLabelText(labelInfoFilesize, hashInfo.getFilesize());
 			setLabelText(labelInfoAlgorithm, hashInfo.getAlgorithm());
 			setLabelText(labelInfoHash, hashInfo.getHash());
 		} catch (InterruptedException | ExecutionException ex) {
 			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-			JOptionPane.showMessageDialog(frame, "An error occurred while calculating checksum.", 
+			JOptionPane.showMessageDialog(frame, "An error occurred while calculating checksum.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			clearData();
 		}
@@ -108,72 +108,73 @@ public class MainWindow extends javax.swing.JFrame {
 		menuItemExport.setEnabled(true);
 		menuItemOpenFile.setEnabled(true);
 		isCalculating = false;
-		progressBar.setValue(0);
-		progressBar.setString( "" );
 	}
-	
-    private void openDirectoryFile() {
-		if( isCalculating )
+
+	private void openDirectoryFile() {
+		if (isCalculating) {
 			return;
-        int foresult = hashFileChooserOpen.showOpenDialog(this);
-        if (foresult == JFileChooser.APPROVE_OPTION) {
-            File file = hashFileChooserOpen.getSelectedFile();
-            fieldFileName.setText(file.getAbsolutePath());
-            fieldFileName.setCaretPosition(0);
-        } 
-    }
-    
+		}
+		int foresult = hashFileChooserOpen.showOpenDialog(this);
+		if (foresult == JFileChooser.APPROVE_OPTION) {
+			File file = hashFileChooserOpen.getSelectedFile();
+			fieldFileName.setText(file.getAbsolutePath());
+			fieldFileName.setCaretPosition(0);
+		}
+	}
+
 	private void clearData() {
-        //fieldFileName.setText("");
-            hashInfo = null;
-            fieldHash.setText("");
-            labelInfoAlgorithm.setText("");
-            labelInfoFilename.setText("");
-            labelInfoFilesize.setText("");
-            labelInfoHash.setText("");
+		//fieldFileName.setText("");
+		progressBar.setValue(0);
+		hashInfo = null;
+		fieldHash.setText("");
+		labelInfoAlgorithm.setText("");
+		labelInfoFilename.setText("");
+		labelInfoFilesize.setText("");
+		labelInfoHash.setText("");
 	}
 
 	private void exportHashInfo() {
-		if( hashInfo == null ) {
-			JOptionPane.showMessageDialog(frame, 
-                            "No checksum found. Please open a file first.", 
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
+		if (hashInfo == null) {
+			JOptionPane.showMessageDialog(frame,
+					"No checksum found. Please open a file first.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		int response = hashFileChooserSave.showOpenDialog(this);
-		if( response != JFileChooser.APPROVE_OPTION )
+		int response = hashFileChooserSave.showSaveDialog(this);
+		if (response != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		File file = hashFileChooserSave.getSelectedFile();
 		try (FileOutputStream fos = new FileOutputStream(file)) {
-			fos.write( hashInfo.createFileContent().getBytes() );
+			fos.write(hashInfo.createFileContent().getBytes());
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(frame, "An error occurred while exporting information.", 
+			JOptionPane.showMessageDialog(frame, "An error occurred while exporting information.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
+
 	private void copyToBuffer() {
 		fieldHash.selectAll();
 		fieldHash.copy();
 		fieldHash.select(0, 0);
 	}
-	
+
 	private void setLabelText(JLabel label, String text) {
-		if( text.length() > MAX_LABEL_LENGTH )
+		if (text.length() > MAX_LABEL_LENGTH) {
 			text = text.substring(0, MAX_LABEL_LENGTH) + "...";
+		}
 		label.setText(text);
 	}
-	
+
 	// Netbeans generated methods
-	
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -545,7 +546,7 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-		
+
     private void buttonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCalculateActionPerformed
 		calculateHash();
     }//GEN-LAST:event_buttonCalculateActionPerformed
@@ -553,33 +554,33 @@ public class MainWindow extends javax.swing.JFrame {
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
 		clearData();
 		fieldFileName.setText("");
-                linkBuffer.setEnabled(false);
-                percentProgress.setText("0%");
+		linkBuffer.setEnabled(false);
+		percentProgress.setText("0%");
     }//GEN-LAST:event_buttonClearActionPerformed
 
     private void labelOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseClicked
-        openDirectoryFile();
+		openDirectoryFile();
     }//GEN-LAST:event_labelOpenMouseClicked
 
     private void menuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOpenFileActionPerformed
-        openDirectoryFile();
+		openDirectoryFile();
     }//GEN-LAST:event_menuItemOpenFileActionPerformed
 
     private void menuItemExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExportActionPerformed
-        exportHashInfo();
+		exportHashInfo();
     }//GEN-LAST:event_menuItemExportActionPerformed
 
     private void labelOpenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseEntered
-        labelOpen.setText("<html>Open file...</html>");
+		labelOpen.setText("<html>Open file...</html>");
     }//GEN-LAST:event_labelOpenMouseEntered
 
     private void labelOpenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOpenMouseExited
-        labelOpen.setText("<html><u>Open file...</u></html>");
+		labelOpen.setText("<html><u>Open file...</u></html>");
     }//GEN-LAST:event_labelOpenMouseExited
 
     private void cmbAlgorithmItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAlgorithmItemStateChanged
-        Algorithm algorithm = (Algorithm)cmbAlgorithm.getSelectedItem();
-		if( algorithm == null ) {
+		Algorithm algorithm = (Algorithm) cmbAlgorithm.getSelectedItem();
+		if (algorithm == null) {
 			labelAlgorithm.setText("");
 		} else {
 			labelAlgorithm.setText(algorithm.getDescription());
@@ -587,69 +588,68 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbAlgorithmItemStateChanged
 
     private void menuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExitActionPerformed
-        Object[] options = {"Yes", "No"};
-        int status = JOptionPane.showOptionDialog(frame, 
-                "Are you sure you want to exit?",
-                "Exit",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-                );
-        System.out.println(status);
-        if (JOptionPane.NO_OPTION != status) {
-            System.exit(0);
-        }
+		Object[] options = {"Yes", "No"};
+		int status = JOptionPane.showOptionDialog(frame,
+				"Are you sure you want to exit?",
+				"Exit",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]
+		);
+		System.out.println(status);
+		if (JOptionPane.NO_OPTION != status) {
+			System.exit(0);
+		}
     }//GEN-LAST:event_menuItemExitActionPerformed
 
     private void linkBufferKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_linkBufferKeyPressed
-        copyToBuffer();
+		copyToBuffer();
     }//GEN-LAST:event_linkBufferKeyPressed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        licenseDialog.pack();
-        licenseDialog.setLocationRelativeTo(frame);
-        licenseDialog.setVisible(true);
+		licenseDialog.pack();
+		licenseDialog.setLocationRelativeTo(frame);
+		licenseDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Windows".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
         //</editor-fold>
-        //</editor-fold>
+		//</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new MainWindow().setVisible(true);
+			}
+		});
+	}
 
-	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog aboutDialog;
     private javax.swing.JButton buttonCalculate;

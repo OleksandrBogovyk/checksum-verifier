@@ -36,14 +36,15 @@ public class HashInfo {
 
 	public String createFileContent() {
 		StringBuilder sb = new StringBuilder();
-		sb.append( String.format("File name: %s \n ", filename) );
-		sb.append( String.format("File size: %s \n", filesize) );
-		sb.append( String.format("Algorithm: %s \n", algorithm) );
-		sb.append( String.format("Checksum: %s \n", hash) );
-		
+		String lineSeparator = System.getProperty("line.separator");
+		sb.append(String.format("File name: %s %s", filename, lineSeparator));
+		sb.append(String.format("File size: %s %s", filesize, lineSeparator));
+		sb.append(String.format("Algorithm: %s %s", algorithm, lineSeparator));
+		sb.append(String.format("Checksum: %s %s", hash, lineSeparator));
+
 		return sb.toString();
 	}
-	
+
 	private String filename = "";
 	private String filesize = "";
 	private String algorithm = "";
