@@ -4,27 +4,74 @@
   <NonVisualComponents>
     <Component class="javax.swing.JFileChooser" name="hashFileChooserOpen">
       <Properties>
-        <Property name="approveButtonText" type="java.lang.String" value="&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
-        <Property name="approveButtonToolTipText" type="java.lang.String" value="&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x444;&#x430;&#x439;&#x43b;"/>
-        <Property name="dialogTitle" type="java.lang.String" value="&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x444;&#x430;&#x439;&#x43b;"/>
+        <Property name="approveButtonText" type="java.lang.String" value="Open"/>
+        <Property name="approveButtonToolTipText" type="java.lang.String" value="Open file"/>
+        <Property name="dialogTitle" type="java.lang.String" value="Open file"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFileChooser" name="hashFileChooserSave">
       <Properties>
-        <Property name="acceptAllFileFilterUsed" type="boolean" value="false" postCode="FileNameExtensionFilter filter = new FileNameExtensionFilter(&quot;&#x422;&#x435;&#x43a;&#x441;&#x442;&#x43e;&#x432;&#x44b;&#x439; &#x444;&#x430;&#x439;&#x43b;&quot;, &quot;txt&quot;);&#xa;hashFileChooserSave.addChoosableFileFilter(filter);"/>
+        <Property name="acceptAllFileFilterUsed" type="boolean" value="false" postCode="FileNameExtensionFilter filter = new FileNameExtensionFilter(&quot;Text file (*.txt)&quot;, &quot;txt&quot;);&#xa;hashFileChooserSave.addChoosableFileFilter(filter);"/>
         <Property name="dialogType" type="int" value="1"/>
-        <Property name="approveButtonText" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c;"/>
-        <Property name="approveButtonToolTipText" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c; &#x444;&#x430;&#x439;&#x43b;"/>
-        <Property name="dialogTitle" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c; &#x444;&#x430;&#x439;&#x43b;"/>
+        <Property name="approveButtonToolTipText" type="java.lang.String" value="Save file"/>
+        <Property name="dialogTitle" type="java.lang.String" value="Save file"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
+    <Container class="javax.swing.JDialog" name="licenseDialog">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="License"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel4" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;   &lt;center&gt;ACV (Advanced Checksum Verifier)&lt;/center&gt;&#xa;    &lt;strong&gt;&lt;center&gt;Copyright (C) 2015 Oleksandr Bogovyk, Andre Yakivchuk&lt;/center&gt;&lt;/strong&gt;&lt;br&gt;&#xa;&lt;p&gt;&#xa;    This program is free software: you can redistribute it and/or modify&lt;br&gt;&#xa;    it under the terms of the GNU General Public License as published by&lt;br&gt;&#xa;    the Free Software Foundation, either version 3 of the License, or&lt;br&gt;&#xa;    (at your option) any later version.&lt;br&gt;&#xa;&lt;br&gt;&#xa;    This program is distributed in the hope that it will be useful,&lt;br&gt;&#xa;    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;br&gt;&#xa;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;br&gt;&#xa;    GNU General Public License for more details.&lt;br&gt;&#xa;&#xa;    You should have received a copy of the GNU General Public License&lt;br&gt;&#xa;    along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.&lt;br&gt;&#xa;&lt;/p&gt;&#xa;Also add information on how to contact you by electronic and paper mail.&#xa;&lt;/html&gt;"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JDialog" name="aboutDialog">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x424;&#x430;&#x439;&#x43b;"/>
+            <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemOpenFile">
@@ -32,7 +79,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c;"/>
+                <Property name="text" type="java.lang.String" value="Open"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemOpenFileActionPerformed"/>
@@ -40,7 +87,7 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="jMenu3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442;"/>
+                <Property name="text" type="java.lang.String" value="Export"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="menuItemExport">
@@ -48,7 +95,7 @@
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+S"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="&#x422;&#x435;&#x43a;&#x441;&#x442;&#x43e;&#x432;&#x44b;&#x439; &#x444;&#x430;&#x439;&#x43b; (*.txt)"/>
+                    <Property name="text" type="java.lang.String" value="Text file (*.txt)"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemExportActionPerformed"/>
@@ -63,7 +110,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+F4"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&#x412;&#x44b;&#x445;&#x43e;&#x434;"/>
+                <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemExitActionPerformed"/>
@@ -73,20 +120,23 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x421;&#x43f;&#x440;&#x430;&#x432;&#x43a;&#x430;"/>
+            <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x41b;&#x438;&#x446;&#x435;&#x43d;&#x437;&#x438;&#x44f;"/>
+                <Property name="text" type="java.lang.String" value="License"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+F1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&#x41e; &#x43f;&#x440;&#x43e;&#x433;&#x440;&#x430;&#x43c;&#x43c;&#x435;"/>
+                <Property name="text" type="java.lang.String" value="About"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -96,7 +146,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="Hash-checker Utility"/>
+    <Property name="title" type="java.lang.String" value="Advanced Checksum Verifier"/>
     <Property name="iconImage" type="java.awt.Image" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
       <Connection code="Toolkit.getDefaultToolkit().getImage(getClass().getResource(&quot;hash-logo.png&quot;))" type="code"/>
     </Property>
@@ -127,55 +177,57 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="fieldHash" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="cmbAlgorithm" min="-2" pref="106" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelAlgorithm" max="32767" attributes="0"/>
+                              <Component id="cmbAlgorithm" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="labelAlgorithm" min="-2" pref="184" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="progressBar" alignment="0" max="32767" attributes="0"/>
-                          <Component id="fieldFileName" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="progressBar" min="-2" pref="229" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="percentProgress" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="fieldFileName" alignment="1" min="-2" pref="268" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="labelOpen" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="jSeparator2" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="buttonClear" linkSize="3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="buttonBuffer" linkSize="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="linkBuffer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="buttonCalculate" linkSize="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel8" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelOpen" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="buttonClear" linkSize="3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="buttonCalculate" linkSize="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel7" linkSize="10" alignment="1" min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="jLabel8" linkSize="10" alignment="0" min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="jLabel6" linkSize="10" alignment="1" min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="jLabel14" linkSize="10" min="-2" pref="62" max="-2" attributes="0"/>
+                          <Component id="jLabel5" linkSize="10" alignment="1" min="-2" pref="62" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="labelInfoHash" max="32767" attributes="0"/>
-                          <Component id="labelInfoFilename" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelInfoFilesize" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelInfoAlgorithm" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelInfoHash" linkSize="8" pref="258" max="32767" attributes="0"/>
+                          <Component id="labelInfoAlgorithm" linkSize="8" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelInfoFilesize" linkSize="8" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelInfoFilename" linkSize="8" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="154" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -204,14 +256,17 @@
                   <Component id="fieldHash" linkSize="7" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="progressBar" linkSize="7" pref="21" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="progressBar" linkSize="7" alignment="3" pref="21" max="32767" attributes="0"/>
+                  <Component id="percentProgress" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator2" min="-2" pref="3" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="buttonCalculate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="buttonBuffer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonClear" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="linkBuffer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
@@ -245,17 +300,17 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x424;&#x430;&#x439;&#x43b;:"/>
+        <Property name="text" type="java.lang.String" value="File path:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x410;&#x43b;&#x433;&#x43e;&#x440;&#x438;&#x442;&#x43c;:"/>
+        <Property name="text" type="java.lang.String" value="Algorithm:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x425;&#x44d;&#x448;-&#x441;&#x443;&#x43c;&#x43c;&#x430;:"/>
+        <Property name="text" type="java.lang.String" value="Checksum:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldFileName">
@@ -278,7 +333,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="fieldHash">
       <Properties>
-        <Property name="text" type="java.lang.String" value="73f48840b60ab6da68b03acd322445ee"/>
+        <Property name="text" type="java.lang.String" value="Checksum Value"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="buttonCalculate">
@@ -286,8 +341,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="2"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x420;&#x430;&#x441;&#x447;&#x438;&#x442;&#x430;&#x442;&#x44c;"/>
-        <Property name="toolTipText" type="java.lang.String" value="&#x420;&#x430;&#x441;&#x447;&#x438;&#x442;&#x430;&#x442;&#x44c; &#x437;&#x43d;&#x430;&#x447;&#x435;&#x43d;&#x438;&#x435;"/>
+        <Property name="text" type="java.lang.String" value="Calculate"/>
+        <Property name="toolTipText" type="java.lang.String" value="Calculate checksum"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCalculateActionPerformed"/>
@@ -298,7 +353,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="2"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Message Digest 5"/>
+        <Property name="text" type="java.lang.String" value="Algorithm Describe"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -311,7 +366,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x414;&#x435;&#x442;&#x430;&#x43b;&#x44c;&#x43d;&#x43e;:"/>
+        <Property name="text" type="java.lang.String" value="Details:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -319,7 +374,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x420;&#x430;&#x437;&#x43c;&#x435;&#x440; &#x444;&#x430;&#x439;&#x43b;&#x430;:"/>
+        <Property name="text" type="java.lang.String" value="File size:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
@@ -327,7 +382,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x410;&#x43b;&#x433;&#x43e;&#x440;&#x438;&#x442;&#x43c;:"/>
+        <Property name="text" type="java.lang.String" value="Algorithm:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -335,7 +390,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x425;&#x44d;&#x448;-&#x441;&#x443;&#x43c;&#x43c;&#x430;:"/>
+        <Property name="text" type="java.lang.String" value="Checksum:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelOpen">
@@ -347,7 +402,7 @@
           <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;&#x41e;&#x442;&#x43a;&#x440;&#x44b;&#x442;&#x44c;...&lt;/u&gt;&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;Open file...&lt;/u&gt;&lt;/html&gt;"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
         </Property>
@@ -358,25 +413,13 @@
         <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelOpenMouseExited"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="buttonBuffer">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="11" style="2"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="&#x411;&#x443;&#x444;&#x435;&#x440;"/>
-        <Property name="toolTipText" type="java.lang.String" value="&#x421;&#x43a;&#x43e;&#x43f;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x442;&#x44c; &#x432; &#x431;&#x443;&#x444;&#x435;&#x440; &#x43e;&#x431;&#x43c;&#x435;&#x43d;&#x430;"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonBufferActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="buttonClear">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="2"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c;"/>
-        <Property name="toolTipText" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x434;&#x430;&#x43d;&#x43d;&#x44b;&#x435;"/>
+        <Property name="text" type="java.lang.String" value="Clear"/>
+        <Property name="toolTipText" type="java.lang.String" value="Clear data"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonClearActionPerformed"/>
@@ -401,7 +444,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="132,12 Mb"/>
+        <Property name="text" type="java.lang.String" value="Filesize in Mb"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelInfoAlgorithm">
@@ -412,7 +455,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="MD5 (Message Digest 4)"/>
+        <Property name="text" type="java.lang.String" value="Algorithm Describe"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelInfoHash">
@@ -423,7 +466,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="73f48840b60ab6da68b03acd322445ee"/>
+        <Property name="text" type="java.lang.String" value="Checksum Value"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
@@ -433,7 +476,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&#x418;&#x43c;&#x44f; &#x444;&#x430;&#x439;&#x43b;&#x430;:"/>
+        <Property name="text" type="java.lang.String" value="File name:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelInfoFilename">
@@ -444,8 +487,33 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="66" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="testfile.txt"/>
+        <Property name="text" type="java.lang.String" value="Appropriate filename"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="percentProgress">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="0%"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="linkBuffer">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="66" green="66" red="66" type="rgb"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="2"/>
+        <Property name="text" type="java.lang.String" value="Copy to clipboard"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="linkBufferKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
