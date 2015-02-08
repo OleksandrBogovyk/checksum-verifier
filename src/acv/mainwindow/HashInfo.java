@@ -1,4 +1,4 @@
-package com.checksum.mainwindow;
+package acv.mainwindow;
 
 public class HashInfo {
 
@@ -36,10 +36,10 @@ public class HashInfo {
 
 	public String createFileContent() {
 		StringBuilder sb = new StringBuilder();
-		sb.append( String.format("File name: %s\n", filename) );
-		sb.append( String.format("File size: %s\n", filesize) );
-		sb.append( String.format("Algorithm: %s\n", algorithm) );
-		sb.append( String.format("Checksum: %s\n", hash) );
+		sb.append( String.format("File name: %s \n ", filename) );
+		sb.append( String.format("File size: %s \n", filesize) );
+		sb.append( String.format("Algorithm: %s \n", algorithm) );
+		sb.append( String.format("Checksum: %s \n", hash) );
 		
 		return sb.toString();
 	}

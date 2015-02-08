@@ -1,4 +1,4 @@
-package com.checksum.mainwindow;
+package acv.mainwindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +65,10 @@ public class Algorithm {
 		return id.equals("CRC32");
 	}
 	
+        public boolean isAdler32() {
+		return id.equals("Adler-32");
+	}
+        
 	public String getId() {
 		return id;
 	}

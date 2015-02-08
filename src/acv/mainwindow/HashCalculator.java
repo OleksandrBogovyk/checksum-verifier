@@ -1,9 +1,10 @@
-package com.checksum.mainwindow;
+package acv.mainwindow;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
+import java.util.zip.Adler32;
 import javax.swing.SwingWorker;
 
 /**
@@ -30,7 +31,8 @@ public class HashCalculator extends SwingWorker<HashInfo, Void> {
 	public void setMainWindow(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 	}
-	
+
+        
 	@Override
 	protected HashInfo doInBackground() throws Exception {
 		firePropertyChange( PROPERTY_PROGRESS_STRING, "", "0%");
@@ -40,8 +42,6 @@ public class HashCalculator extends SwingWorker<HashInfo, Void> {
 		File file = new File(fileName);
                 hashInfo.setFilename(file.getName());
 		
-                
-
 		long fileSize = file.length();
 		String sizeText = "";
 		if( fileSize < KILO ) {
@@ -62,11 +62,13 @@ public class HashCalculator extends SwingWorker<HashInfo, Void> {
 		try (FileInputStream inputStream = new FileInputStream(file)) {
 			CRC32 crc32 = null;
 			MessageDigest digest = null;
-			if( algorithm.isCrc32() )
+			
+                        if( algorithm.isCrc32() ) {
 				crc32 = new CRC32();
-			else
+                        } else {
 				digest = MessageDigest.getInstance(algorithm.getId());
- 
+                        }
+                        
 			byte[] bytesBuffer = new byte[1024];
 			int bytesRead = -1;
  
