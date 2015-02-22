@@ -4,12 +4,15 @@ import com.acv.classes.Algorithm;
 import com.acv.classes.HashInfo;
 import com.acv.classes.HashCalculator;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -21,7 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainWindow extends javax.swing.JFrame {
 
-	private final static int MAX_LABEL_LENGTH = 42;
+	private final static int MAX_LABEL_LENGTH = 43;
 
 	private boolean isCalculating = false;
 	private HashCalculator hashCalculator;
@@ -120,7 +123,6 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	private void clearData() {
-                //fieldFileName.setText("");
 		fieldHash.setText("");
                 progressBar.setValue(0);
 		percentProgress.setText("0%");
@@ -133,28 +135,53 @@ public class MainWindow extends javax.swing.JFrame {
                 
                 hashInfo = null;         
         }
-
+        
 	private void exportHashInfo() {
-		if (hashInfo == null) {
+            if (hashInfo == null) {
 			JOptionPane.showMessageDialog(frame,
 				"No checksum found. Please open a file first.",
 				"Error",
 				JOptionPane.ERROR_MESSAGE);
 			return;
-		}
-		int response = hashFileChooserSave.showSaveDialog(this);
-		if (response != JFileChooser.APPROVE_OPTION) {
+            }
+            int response = hashFileChooserSave.showSaveDialog(this);
+            if (response != JFileChooser.APPROVE_OPTION) {
 			return;
 		}
-		File file = hashFileChooserSave.getSelectedFile();
-		try (FileOutputStream fos = new FileOutputStream(file)) {
+            File file = hashFileChooserSave.getSelectedFile();
+		
+            if (file.length() == 0) {
+                try (FileOutputStream fos = new FileOutputStream(file)) {
 			fos.write(hashInfo.createFileContent().getBytes());
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(frame, "An error occurred while exporting information.",
-				"Error", JOptionPane.ERROR_MESSAGE);
+                            "Error", JOptionPane.ERROR_MESSAGE);
 			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+                    }
+            } else {
+                    Object[] options = {"Yes", "No"};
+                        int status = JOptionPane.showOptionDialog(
+                        frame,
+                        "Selected file is not empty.\nDo you want to overwrite it?",
+                        "Warning",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                    );
+                        
+                if (JOptionPane.YES_OPTION == status) {                   
+                    try (FileOutputStream fos = new FileOutputStream(file)) {
+			fos.write(hashInfo.createFileContent().getBytes());
+                    } catch (IOException ex) {
+			JOptionPane.showMessageDialog(frame, "An error occurred while exporting information.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+			Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }          
+                }
+        }
 
 	private void copyToBuffer() {
 		fieldHash.selectAll();
@@ -183,6 +210,13 @@ public class MainWindow extends javax.swing.JFrame {
         hashFileChooserSave = new javax.swing.JFileChooser();
         aboutDialog = new javax.swing.JDialog();
         jLabel4 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -230,10 +264,37 @@ public class MainWindow extends javax.swing.JFrame {
         hashFileChooserSave.setDialogTitle("Save file");
         hashFileChooserSave.setToolTipText("");
 
-        aboutDialog.setTitle("License");
+        aboutDialog.setTitle("About");
         aboutDialog.setResizable(false);
 
-        jLabel4.setText("<html>\n   <center>ACV (Advanced Checksum Verifier)</center>\n    <strong><center>Copyright (C) 2015 Oleksandr Bogovyk, Andre Yakivchuk</center></strong><br>\n<p>\n    This program is free software: you can redistribute it and/or modify<br>\n    it under the terms of the GNU General Public License as published by<br>\n    the Free Software Foundation, either version 3 of the License, or<br>\n    (at your option) any later version.<br>\n<br>\n    This program is distributed in the hope that it will be useful,<br>\n    but WITHOUT ANY WARRANTY; without even the implied warranty of<br>\n    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br>\n    GNU General Public License for more details.<br>\n\n    You should have received a copy of the GNU General Public License<br>\n    along with this program.  If not, see <http://www.gnu.org/licenses/>.<br>\n</p>\nAlso add information on how to contact you by electronic and paper mail.\n</html>");
+        jLabel4.setText("<html><p>This program is <em>free software</em>: you can redistribute it and/or modify it<br>\nunder the terms of the GNU General Public License as published by the<br>\nFree Software Foundation version 3 of the License, or any later <br>\nversion.<br><br>\n\nThis program is distributed in the hope that it will be useful, but <br>\nWITHOUT ANY WARRANTY; without even the implied warranty of<br>\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br>\n GNU General Public License for more details.<br></html>");
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acv/image/hash-logo-32.png"))); // NOI18N
+
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("<html>\n<center><strong>ACV (Advanced Checksum Verifier)</strong></center>\n<center>Version 1.0.2</center>\n<center>Copyright (c) 2014-2015</center>\n</html>");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel11.setText("GNU/GPL3 Licence :");
+
+        jLabel12.setText("<html><a href=\"http://www.gnu.org/licenses/gpl-3.0.en.html\">http://www.gnu.org/licenses/gpl-3.0</a></html>");
+        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel13.setText("GitHub Project: ");
+
+        jLabel15.setText("<html><a href=\"https://github.com/OleksandrBogovyk/acv\">https://github.com/OleksandrBogovyk/acv</a></html>");
+        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout aboutDialogLayout = new javax.swing.GroupLayout(aboutDialog.getContentPane());
         aboutDialog.getContentPane().setLayout(aboutDialogLayout);
@@ -241,14 +302,43 @@ public class MainWindow extends javax.swing.JFrame {
             aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(aboutDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(aboutDialogLayout.createSequentialGroup()
+                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel15)))
+                    .addGroup(aboutDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator4)
+                            .addComponent(jLabel10))))
+                .addContainerGap())
         );
         aboutDialogLayout.setVerticalGroup(
             aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(aboutDialogLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -375,7 +465,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(menuItemOpenFile);
 
-        jMenu3.setText("Export Info");
+        jMenu3.setText("Export");
 
         menuItemExport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuItemExport.setText("Text file (*.txt)");
@@ -581,7 +671,7 @@ public class MainWindow extends javax.swing.JFrame {
                     options[0]
 		);
 		System.out.println(status);
-		if (JOptionPane.NO_OPTION != status) {
+		if (JOptionPane.YES_OPTION == status) {
                     System.exit(0);
 		}
     }//GEN-LAST:event_menuItemExitActionPerformed
@@ -596,6 +686,26 @@ public class MainWindow extends javax.swing.JFrame {
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+      if (Desktop.isDesktopSupported()) {
+          try {
+              Desktop.getDesktop().browse(new URI ("http://www.gnu.org/licenses/gpl-3.0.en.html"));
+          } catch (IOException | URISyntaxException ex) {
+              Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    }//GEN-LAST:event_jLabel12MouseClicked
+    }
+    
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        if (Desktop.isDesktopSupported()) {
+          try {
+              Desktop.getDesktop().browse(new URI ("https://github.com/OleksandrBogovyk/acv"));
+          } catch (IOException | URISyntaxException ex) {
+              Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    }
+    }//GEN-LAST:event_jLabel15MouseClicked
+    
 	/**
 	 * @param args the command line arguments
 	 */
@@ -634,7 +744,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JFileChooser hashFileChooserOpen;
     private javax.swing.JFileChooser hashFileChooserSave;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -642,6 +757,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -650,6 +766,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JLabel labelAlgorithm;
     private javax.swing.JLabel labelInfoAlgorithm;
     private javax.swing.JLabel labelInfoFilename;
