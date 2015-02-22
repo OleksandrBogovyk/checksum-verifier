@@ -269,10 +269,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel4.setText("<html><p>This program is <em>free software</em>: you can redistribute it and/or modify it<br>\nunder the terms of the GNU General Public License as published by the<br>\nFree Software Foundation version 3 of the License, or any later <br>\nversion.<br><br>\n\nThis program is distributed in the hope that it will be useful, but <br>\nWITHOUT ANY WARRANTY; without even the implied warranty of<br>\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br>\n GNU General Public License for more details.<br></html>");
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acv/image/hash-logo-32.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acv/image/hash-logo-48.png"))); // NOI18N
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("<html>\n<center><strong>ACV (Advanced Checksum Verifier)</strong></center>\n<center>Version 1.0.2</center>\n<center>Copyright (c) 2014-2015</center>\n</html>");
+        jLabel10.setText("<html>\n<center><strong>ACV (<em>Advanced Checksum Verifier</em>)</strong></center>\n<center>Version 1.0.2</center>\n<center>Copyright (c) 2014-2015</center>\n</html>");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel11.setText("GNU/GPL3 Licence :");
@@ -313,10 +313,10 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel15)))
                     .addGroup(aboutDialogLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator4)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel10))))
                 .addContainerGap())
         );
