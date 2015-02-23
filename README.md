@@ -1,3 +1,3 @@
-checksum-verifier
+acv
 ==========
 Advanced Checksum Verifier
