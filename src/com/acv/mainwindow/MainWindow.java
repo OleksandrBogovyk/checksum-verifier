@@ -139,7 +139,7 @@ public class MainWindow extends javax.swing.JFrame {
 	private void exportHashInfo() {
             if (hashInfo == null) {
 			JOptionPane.showMessageDialog(frame,
-				"No checksum found. Please open a file first.",
+				"No checksum found. Please select a file first.",
 				"Error",
 				JOptionPane.ERROR_MESSAGE);
 			return;
@@ -267,12 +267,12 @@ public class MainWindow extends javax.swing.JFrame {
         aboutDialog.setTitle("About");
         aboutDialog.setResizable(false);
 
-        jLabel4.setText("<html><p>This program is <em>free software</em>: you can redistribute it and/or modify it<br>\nunder the terms of the GNU General Public License as published by the<br>\nFree Software Foundation version 3 of the License, or any later <br>\nversion.<br><br>\n\nThis program is distributed in the hope that it will be useful, but <br>\nWITHOUT ANY WARRANTY; without even the implied warranty of<br>\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br>\n GNU General Public License for more details.<br></html>");
+        jLabel4.setText("<html>\nThis program is <em>free software</em>: you can redistribute it and/or<br> \nmodify it under the terms of the GNU General Public License as<br> \npublished by the Free Software Foundation version 3 of the<br> \nLicense, or any later version.<br><br>\nThis program is distributed in the hope that it will be useful, but <br> \nWITHOUT ANY WARRANTY; without even the implied warranty of<br>\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br> \nSee the <em>GNU General Public License</em> for more details.<br>\n</html>");
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acv/image/hash-logo-48.png"))); // NOI18N
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("<html>\n<center><strong>ACV (<em>Advanced Checksum Verifier</em>)</strong></center>\n<center>Version 1.0.2</center>\n<center>Copyright (c) 2014-2015</center>\n</html>");
+        jLabel10.setText("<html> <center><strong>ACV (<em>Advanced Checksum Verifier</em>)</strong></center> <center>Version 1.0.21</center> <center>Copyright (c) 2014-2015</center> </html>");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel11.setText("GNU/GPL3 Licence :");
@@ -286,9 +286,9 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel13.setText("GitHub Project: ");
+        jLabel13.setText("GitHub Source: ");
 
-        jLabel15.setText("<html><a href=\"https://github.com/OleksandrBogovyk/acv\">https://github.com/OleksandrBogovyk/acv</a></html>");
+        jLabel15.setText("<html><a href=\"https://github.com/OleksandrBogovyk/acv\">https://github.com/obogovyk/acv</a></html>");
         jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -303,7 +303,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(aboutDialogLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
                     .addGroup(aboutDialogLayout.createSequentialGroup()
                         .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,11 +311,14 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel15)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutDialogLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(aboutDialogLayout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator4)
                             .addComponent(jLabel10))))
                 .addContainerGap())
         );
@@ -328,10 +330,10 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(aboutDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -392,6 +394,7 @@ public class MainWindow extends javax.swing.JFrame {
         labelOpen.setForeground(java.awt.Color.blue);
         labelOpen.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelOpen.setText("<html><u>Open file...</u></html>");
+        labelOpen.setToolTipText("Open file...");
         labelOpen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         labelOpen.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -446,6 +449,7 @@ public class MainWindow extends javax.swing.JFrame {
         linkBuffer.setForeground(new java.awt.Color(102, 102, 102));
         linkBuffer.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         linkBuffer.setText("Copy to clipboard");
+        linkBuffer.setToolTipText("Copy to clipboard");
         linkBuffer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         linkBuffer.setEnabled(false);
         linkBuffer.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -457,7 +461,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         menuItemOpenFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        menuItemOpenFile.setText("Open");
+        menuItemOpenFile.setText("Open file");
         menuItemOpenFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemOpenFileActionPerformed(evt);
@@ -465,7 +469,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu1.add(menuItemOpenFile);
 
-        jMenu3.setText("Export");
+        jMenu3.setText("Export details");
 
         menuItemExport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuItemExport.setText("Text file (*.txt)");
@@ -492,7 +496,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Help");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem5.setText("About");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -512,7 +515,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -527,20 +529,22 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(labelAlgorithm, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(percentProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(fieldFileName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(percentProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(fieldFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(labelOpen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1)
                     .addComponent(jSeparator2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(linkBuffer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelOpen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(buttonClear)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonCalculate))))
+                        .addComponent(buttonClear)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonCalculate))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -553,8 +557,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(labelInfoHash, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
                             .addComponent(labelInfoAlgorithm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(labelInfoFilesize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelInfoFilename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(labelInfoFilename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -583,9 +586,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(fieldHash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addComponent(percentProgress))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(percentProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -595,7 +598,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(linkBuffer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -613,10 +616,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(labelInfoHash))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {fieldHash, progressBar});
 
         pack();
         setLocationRelativeTo(null);

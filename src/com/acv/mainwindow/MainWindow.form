@@ -31,7 +31,6 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel4" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLabel13" max="32767" attributes="0"/>
@@ -43,11 +42,15 @@
                               <Component id="jLabel15" max="32767" attributes="0"/>
                           </Group>
                       </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel9" min="-2" pref="48" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSeparator4" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jSeparator4" max="32767" attributes="0"/>
                               <Component id="jLabel10" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -65,10 +68,10 @@
                       <Component id="jLabel10" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
+                  <Component id="jSeparator4" min="-2" pref="8" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -86,7 +89,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p&gt;This program is &lt;em&gt;free software&lt;/em&gt;: you can redistribute it and/or modify it&lt;br&gt;&#xa;under the terms of the GNU General Public License as published by the&lt;br&gt;&#xa;Free Software Foundation version 3 of the License, or any later &lt;br&gt;&#xa;version.&lt;br&gt;&lt;br&gt;&#xa;&#xa;This program is distributed in the hope that it will be useful, but &lt;br&gt;&#xa;WITHOUT ANY WARRANTY; without even the implied warranty of&lt;br&gt;&#xa; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;br&gt;&#xa; GNU General Public License for more details.&lt;br&gt;&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;This program is &lt;em&gt;free software&lt;/em&gt;: you can redistribute it and/or&lt;br&gt; &#xa;modify it under the terms of the GNU General Public License as&lt;br&gt; &#xa;published by the Free Software Foundation version 3 of the&lt;br&gt; &#xa;License, or any later version.&lt;br&gt;&lt;br&gt;&#xa;This program is distributed in the hope that it will be useful, but &lt;br&gt; &#xa;WITHOUT ANY WARRANTY; without even the implied warranty of&lt;br&gt;&#xa;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;br&gt; &#xa;See the &lt;em&gt;GNU General Public License&lt;/em&gt; for more details.&lt;br&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
@@ -99,7 +102,7 @@
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;center&gt;&lt;strong&gt;ACV (&lt;em&gt;Advanced Checksum Verifier&lt;/em&gt;)&lt;/strong&gt;&lt;/center&gt;&#xa;&lt;center&gt;Version 1.0.2&lt;/center&gt;&#xa;&lt;center&gt;Copyright (c) 2014-2015&lt;/center&gt;&#xa;&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt; &lt;center&gt;&lt;strong&gt;ACV (&lt;em&gt;Advanced Checksum Verifier&lt;/em&gt;)&lt;/strong&gt;&lt;/center&gt; &lt;center&gt;Version 1.0.21&lt;/center&gt; &lt;center&gt;Copyright (c) 2014-2015&lt;/center&gt; &lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator4">
@@ -128,12 +131,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="2"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="GitHub Project: "/>
+            <Property name="text" type="java.lang.String" value="GitHub Source: "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;a href=&quot;https://github.com/OleksandrBogovyk/acv&quot;&gt;https://github.com/OleksandrBogovyk/acv&lt;/a&gt;&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;a href=&quot;https://github.com/OleksandrBogovyk/acv&quot;&gt;https://github.com/obogovyk/acv&lt;/a&gt;&lt;/html&gt;"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
@@ -156,7 +159,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Open"/>
+                <Property name="text" type="java.lang.String" value="Open file"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemOpenFileActionPerformed"/>
@@ -164,7 +167,7 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="jMenu3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Export"/>
+                <Property name="text" type="java.lang.String" value="Export details"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="menuItemExport">
@@ -202,9 +205,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Alt+F1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="About"/>
               </Properties>
               <Events>
@@ -247,7 +247,6 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
@@ -264,27 +263,29 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="progressBar" min="-2" pref="229" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="percentProgress" min="-2" pref="29" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="fieldFileName" alignment="1" min="-2" pref="268" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="fieldFileName" min="-2" pref="268" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="labelOpen" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                   <Component id="jSeparator2" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="linkBuffer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelOpen" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="buttonClear" linkSize="3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="buttonCalculate" linkSize="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="buttonClear" linkSize="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="buttonCalculate" linkSize="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabel7" linkSize="10" alignment="1" min="-2" pref="62" max="-2" attributes="0"/>
                           <Component id="jLabel8" linkSize="10" alignment="0" min="-2" pref="62" max="-2" attributes="0"/>
@@ -299,7 +300,6 @@
                           <Component id="labelInfoFilesize" linkSize="8" alignment="0" max="32767" attributes="0"/>
                           <Component id="labelInfoFilename" linkSize="8" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -325,12 +325,12 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fieldHash" linkSize="7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fieldHash" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="progressBar" linkSize="7" alignment="3" pref="21" max="32767" attributes="0"/>
-                  <Component id="percentProgress" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="progressBar" max="32767" attributes="0"/>
+                  <Component id="percentProgress" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator2" min="-2" pref="3" max="-2" attributes="0"/>
@@ -342,7 +342,7 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -364,7 +364,7 @@
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labelInfoHash" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -475,6 +475,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;Open file...&lt;/u&gt;&lt;/html&gt;"/>
+        <Property name="toolTipText" type="java.lang.String" value="Open file..."/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
         </Property>
@@ -578,6 +579,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" value="Copy to clipboard"/>
+        <Property name="toolTipText" type="java.lang.String" value="Copy to clipboard"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
         </Property>
