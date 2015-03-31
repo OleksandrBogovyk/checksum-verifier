@@ -1,9 +1,8 @@
 CVU (Checksum Verifier Utility)
 ---
-CVU is an open source software for calculating checksum and verifying integrity any type of file. 
-It uses Java Runtime Environment (JRE) >= 7.
+CVU is an open source software for calculating checksum and verifying integrity any type of file. You can save your calculated information to text file, as example for further *.ISO verifying.
 
-You can save your calculated information to text file, as example for further *.ISO verifying.
+It uses Java Runtime Environment (JRE) 8.
 
 Supported checksums:
 - MD5 (Message Digest 5)
