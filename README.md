@@ -16,4 +16,5 @@ Supported checksums:
 Copyright (c)2014-2015
 Bogovyk Oleksandr, Andre Yakivchuk
 
+https://sourceforge.net/projects/advancedcvu
 If you found any bug or just want to help this project, please email me: obogovyk@gmail.com
