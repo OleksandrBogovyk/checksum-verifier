@@ -16,4 +16,4 @@ Supported checksums:
 Copyright (c)2014-2015
 Bogovyk Oleksandr (obogovyk@gmail.com), Andre Yakivchuk (yakandre@gmail.com)
 
-https://sourceforge.net/projects/advancedcvu
+SourceForge: https://sourceforge.net/projects/advancedcvu
