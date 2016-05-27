@@ -13,7 +13,5 @@ Supported checksums:
 - Adler-32 (RFC 1950)
 
 --
-Copyright (c)2014-2015
-Bogovyk Oleksandr (obogovyk@gmail.com), Andre Yakivchuk (yakandre@gmail.com)
-
+(c)2014-2015, Bogovyk Oleksandr
 SourceForge: https://sourceforge.net/projects/advancedcvu
