@@ -14,4 +14,5 @@ Supported checksums:
 
 --
 (c)2014-2015, Bogovyk Oleksandr
+
 SourceForge: https://sourceforge.net/projects/advancedcvu
