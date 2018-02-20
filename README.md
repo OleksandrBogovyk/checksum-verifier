@@ -12,7 +12,7 @@ Supported checksums:
 - CRC32 (Cyclic Redundancy Check)
 - Adler-32 (RFC 1950)
 
---
-(c)2014-2015, Bogovyk Oleksandr
+---
+2014-2015
 
 SourceForge: https://sourceforge.net/projects/advancedcvu
